@@ -20,5 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "bitcoin_price_fetcher"
-include(":app")
 include(":bitcoin_price_fetcher")
