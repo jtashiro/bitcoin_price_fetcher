@@ -12,7 +12,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public class Phemex implements DataSource {
-    private static final String API_URL = "https://api.phemex.com/md/ticker/spot";
+    private static final String API_URL = "https://api.phemex.com/v1/md/ticker/24hr";
     private static final String SYMBOL = "BTCUSD";
 
     @Override
@@ -28,7 +28,11 @@ public class Phemex implements DataSource {
             }
             in.close();
             JSONObject jsonObject = new JSONObject(response.toString());
-            double btcPrice = jsonObject.getDouble("data");
+            // Parse JSON response
+            JSONObject resultObject = jsonObject.getJSONObject("result");
+            long lastEp = resultObject.getLong("lastEp");
+            double btcPrice = lastEp /  1e4;
+
             return formatPrice(btcPrice);
         } finally {
             urlConnection.disconnect();
